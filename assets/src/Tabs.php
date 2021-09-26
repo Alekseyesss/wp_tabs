@@ -1,5 +1,9 @@
 <?php
+
 namespace tabs;
+
+use WP_Query as WP_Query;
+
 class Tabs
 {
   public function hooks()
@@ -15,11 +19,11 @@ class Tabs
     $atts = shortcode_atts([
       'post_type' => 'post',
     ], $atts);
-    $query = new \WP_Query([
+    $query = new WP_Query([
       'post_type' => $atts['post_type'],
       'orderby' => 'date',
       'order' => 'DESC',
-      'posts_per_page' => -1,
+      'posts_per_page' => 20,
     ]);
     ob_start();
     echo '<div class="tabs_wrapper"><div class="titles_wrapper">';
@@ -43,7 +47,7 @@ class Tabs
   {
     wp_register_style(
       'tabs',
-      TABS_URL . '/assets/tabs.css'
+      TABS_URL . '/assets/css/tabs.css'
     );
   }
 
@@ -51,7 +55,7 @@ class Tabs
   {
     wp_register_script(
       'tabs',
-      TABS_URL . '/assets/tabs.js',
+      TABS_URL . '/assets/js/tabs.js',
       [],
       false,
       true

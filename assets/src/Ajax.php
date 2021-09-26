@@ -2,6 +2,8 @@
 
 namespace ajax;
 
+use WP_Query as WP_Query;
+
 class Ajax
 {
   public function hooks()
@@ -13,7 +15,10 @@ class Ajax
   {
     check_ajax_referer(TABS_NONCE, 'security');
     $post_id = $_POST['post_id'];
-    $query = new \WP_Query(["p" => $post_id, "post_type" => "any"]);
+    $query = new WP_Query([
+      "p" => $post_id,
+      "post_type" => "any"
+    ]);
     ob_start();
     if ($query->have_posts()) {
       while ($query->have_posts()) {
