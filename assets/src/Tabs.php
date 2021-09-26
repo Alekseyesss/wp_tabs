@@ -31,7 +31,7 @@ class Tabs
       while ($query->have_posts()) {
         $query->the_post();
         echo '<div data-post-id="' . get_the_ID() . '">';
-        the_title();
+        echo mb_strimwidth(get_the_title(), 0, 28, "...");
         echo '</div>';
       }
       wp_reset_postdata();
