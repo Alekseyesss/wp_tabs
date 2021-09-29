@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  let tabs_wrapper = document.querySelector('.tabs_wrapper'),
-    tabs_content = document.querySelector('.tabs_content'),
-    first_tab = document.querySelector('[data-post-id]'),
+  let tabs_wrapper = document.querySelector('.ba_tabs_wrapper'),
+    tabs_content = document.querySelector('.ba_tabs_content'),
     ajaxurl = tabs_arr.adminUrl;
 
-  first_tab = first_tab.getAttribute('data-post-id');
   //set the data for the backend
   function setFormData(key, value) {
     formData = new FormData();
@@ -29,14 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //watching tabs click
   tabs_wrapper.addEventListener('click', (event) => {
-    if (event.target.hasAttribute('data-post-id')) {
-      let post_id = event.target.getAttribute('data-post-id'),
+    if (event.target.hasAttribute('data-ba-post-id')) {
+      let post_id = event.target.getAttribute('data-ba-post-id'),
+        el = tabs_wrapper.querySelector('.ba_tabs-active'),
         data = setFormData('post_id', post_id);
+
+      el.classList.remove('ba_tabs-active');
+      event.target.classList.add('ba_tabs-active');
       insert_data(data)
     }
   })
-
-  // creating the first display of the tabs
-  insert_data(setFormData('post_id', first_tab));
 
 });

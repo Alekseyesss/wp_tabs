@@ -2,7 +2,7 @@
 
 namespace tabs;
 
-use WP_Query as WP_Query;
+use WP_Query;
 
 class Tabs
 {
@@ -23,22 +23,47 @@ class Tabs
       'post_type' => $atts['post_type'],
       'orderby' => 'date',
       'order' => 'DESC',
-      'posts_per_page' => 20,
+      'posts_per_page' => 10,
     ]);
     ob_start();
-    echo '<div class="tabs_wrapper"><div class="titles_wrapper">';
+    echo '<div class="ba_tabs_wrapper"><div class="ba_titles_wrapper">';
     if ($query->have_posts()) {
+      $i = 0;
       while ($query->have_posts()) {
         $query->the_post();
-        echo '<div data-post-id="' . get_the_ID() . '">';
+        if ($i === 0) {
+          $class = 'class="ba_tabs-active ba_tabs_title"';
+        }
+        echo '<div data-ba-post-id="' . get_the_ID() . '"' . $class . '>';
         echo mb_strimwidth(get_the_title(), 0, 28, "...");
         echo '</div>';
+        $i = 1;
+        $class = 'class="ba_tabs_title"';
       }
       wp_reset_postdata();
     }
 ?>
     </div>
-    <div class='tabs_content'></div>
+    <div class='ba_tabs_content'>
+      <?php
+      if ($query->have_posts()) {
+        $query->the_post();
+      ?>
+        <div class="ba_tabs_content__text">
+          <div class="ba_tabs_content__text_inner">
+            <div class="ba_post_title"><?php the_title(); ?></div>
+            <div class="ba_post_content"><?php the_content(); ?></div>
+            <a href="<?php the_permalink(); ?>" class="ba_post_button">Learn more</a>
+          </div>
+        </div>
+        <div class="ba_tabs_content__img">
+          <?php the_post_thumbnail(); ?>
+        </div>
+      <?php
+        wp_reset_postdata();
+      }
+      ?>
+    </div>
     </div>
 <?php
     return ob_get_clean();
@@ -47,7 +72,9 @@ class Tabs
   {
     wp_register_style(
       'tabs',
-      TABS_URL . '/assets/css/tabs.css'
+      TABS_URL . '/assets/css/tabs.css',
+      [],
+      TABS_VERSION
     );
   }
 
@@ -57,7 +84,7 @@ class Tabs
       'tabs',
       TABS_URL . '/assets/js/tabs.js',
       [],
-      false,
+      TABS_VERSION,
       true
     );
     wp_localize_script(
