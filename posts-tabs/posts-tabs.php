@@ -10,9 +10,6 @@
  * Requires PHP:        5.5
  * Author:              blue auditor
  * License:             MIT
- * Text Domain:         posts_tabs
- *
- * @package     posts_tabs
  */
 
 // Exit if accessed directly.

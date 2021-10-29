@@ -10,7 +10,12 @@ class Tabs
   {
     add_action('wp_enqueue_scripts', [$this, 'register_styles']);
     add_action('wp_enqueue_scripts', [$this, 'register_scripts']);
+    add_filter('excerpt_more', [$this, 'more']);
     add_shortcode('tabs', [$this, 'tabs']);
+  }
+  public function more($more)
+  {
+    return '...';
   }
   public function tabs($atts)
   {
@@ -61,7 +66,7 @@ class Tabs
           <div class="ba_tabs_content__text">
             <div class="ba_tabs_content__text_inner">
               <div class="ba_post_title"><?php the_title(); ?></div>
-              <div class="ba_post_content"><?php the_content(); ?></div>
+              <div class="ba_post_content"><?php the_excerpt(); ?></div>
               <a href="<?php the_permalink(); ?>" class="ba_post_button"><?php _e('Learn more', 'post-tabs'); ?></a>
             </div>
           </div>
